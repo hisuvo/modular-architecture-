@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import config from "./config";
 import { initDB } from "./config/db";
-import logger from "./middleware/logger.middleware";
+import logger from "./middleware/logger";
 import { userRouter } from "./modules/users/users.routes";
 import { todosRouter } from "./modules/todos/todos.routes";
 import { authRouter } from "./modules/auth/auth.routes";
