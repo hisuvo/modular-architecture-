@@ -4,6 +4,7 @@ import { initDB } from "./config/db";
 import logger from "./middleware/logger.middleware";
 import { userRouter } from "./modules/users/users.routes";
 import { todosRouter } from "./modules/todos/todos.routes";
+import { authRouter } from "./modules/auth/auth.routes";
 
 const app = express();
 const port = config.port;
@@ -23,8 +24,14 @@ app.get("/", logger, (req: Request, res: Response) => {
 });
 
 // Moduler Patter use here
+//* USERS CRUD
 app.use("/users", userRouter);
+
+//* TODOS CRUD
 app.use("/todos", todosRouter);
+
+//* AUTH ROUTER
+app.use("/auth", authRouter);
 
 // Route: 404 Error
 app.use((req: Request, res: Response, next: NextFunction) => {

@@ -1,17 +1,15 @@
 // here we write out bisnuss logic
-
+import bcrypt from "bcryptjs";
 import { pool } from "../../config/db";
 
-const createUser = async (
-  name: string,
-  email: string,
-  age: number,
-  phone: string,
-  address: string
-) => {
+const createUser = async (payload: Record<string, unknown>) => {
+  const { name, email, password, age, phone, address } = payload;
+
+  const hashPassword = await bcrypt.hash(password as string, 10);
+
   const result = await pool.query(
-    `INSERT INTO users(name, email, age, phone, address) VALUES($1, $2, $3, $4, $5)`,
-    [name, email, age, phone, address]
+    `INSERT INTO users(name, email, password, age, phone, address) VALUES($1, $2, $3, $4, $5, $6) RETURNING *`,
+    [name, email, hashPassword, age, phone, address]
   );
 
   return result;
@@ -27,14 +25,9 @@ const getSingleUser = async (id?: string) => {
   return result;
 };
 
-const updateUser = async (
-  name: string,
-  email: string,
-  age: number,
-  phone: string,
-  address: string,
-  id?: string
-) => {
+const updateUser = async (payload: Record<string, unknown>, id?: string) => {
+  const { name, email, age, phone, address } = payload;
+
   const result = await pool.query(
     `UPDATE users set name=$1, email=$2, age=$3, phone=$4, address=$5 WHERE id=$6 RETURNING *`,
     [name, email, age, phone, address, id]

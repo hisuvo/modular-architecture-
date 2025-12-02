@@ -3,15 +3,7 @@ import { userServices } from "./user.service";
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { name, email, age, phone, address } = req.body;
-
-    const result = await userServices.createUser(
-      name,
-      email,
-      age,
-      phone,
-      address
-    );
+    const result = await userServices.createUser(req.body);
 
     res.status(201).json({
       success: true,
@@ -65,16 +57,8 @@ const getSingleUser = async (req: Request, res: Response) => {
 
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const { name, email, age, phone, address } = req.body;
     const id = req.params?.id;
-    const result = await userServices.updateUser(
-      name,
-      email,
-      age,
-      phone,
-      address,
-      id
-    );
+    const result = await userServices.updateUser(req.body, id);
 
     console.log(result);
 
