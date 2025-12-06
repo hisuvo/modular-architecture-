@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.todosRouter = void 0;
+const express_1 = require("express");
+const todos_controller_1 = require("./todos.controller");
+const router = (0, express_1.Router)();
+router.post("/", todos_controller_1.todosController.createTodos);
+router.get("/", todos_controller_1.todosController.getTodos);
+router.get("/:id", todos_controller_1.todosController.getSingleTodos);
+router.put("/:id", todos_controller_1.todosController.updateTodos);
+router.delete("/:id", todos_controller_1.todosController.deleteTodos);
+exports.todosRouter = router;

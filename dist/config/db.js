@@ -1,14 +1,18 @@
-import { Pool } from "pg";
-import config from ".";
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.initDB = exports.pool = void 0;
+const pg_1 = require("pg");
+const _1 = __importDefault(require("."));
 // DB
-export const pool = new Pool({
-  connectionString: config.connection_str,
+exports.pool = new pg_1.Pool({
+    connectionString: _1.default.connection_str,
 });
-
-export const initDB = async () => {
-  try {
-    await pool.query(`
+const initDB = async () => {
+    try {
+        await exports.pool.query(`
     CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -22,8 +26,7 @@ export const initDB = async () => {
     updated_at TIMESTAMP DEFAULT NOW()
     )
     `);
-
-    await pool.query(`
+        await exports.pool.query(`
     CREATE TABLE IF NOT EXISTS todos(
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
@@ -35,7 +38,9 @@ export const initDB = async () => {
     updated_at TIMESTAMP DEFAULT NOW()
     )
     `);
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
 };
+exports.initDB = initDB;

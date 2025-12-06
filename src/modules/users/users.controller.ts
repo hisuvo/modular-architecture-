@@ -60,8 +60,6 @@ const updateUser = async (req: Request, res: Response) => {
     const id = req.params?.id;
     const result = await userServices.updateUser(req.body, id);
 
-    console.log(result);
-
     if (result.rowCount === 0) {
       return res.status(404).json({
         success: false,
